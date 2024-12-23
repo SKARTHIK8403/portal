@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicant Dashboard</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/tlogo.jpg') }}" type="image/jpeg">
+    <style>        
+         * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e6e9f1, #f0f4f8);
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.sidebar {
+    width: 300px;
+    background: #2c3e50;
+    color: #fff;
+    padding: 40px 30px;
+    box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+    position: sticky;
+    top: 0;
+}
+
+.sidebar h3 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 1px;
+}
+
+.sidebar p {
+    margin: 15px 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+}
+
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    font-size: 1.1rem;
+    margin: 15px 0;
+    padding: 12px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, padding-left 0.2s ease;
+}
+
+.sidebar a:hover {
+    background-color: #34495e;
+    padding-left: 20px;
+}
+
+.edit-profile-toggle {
+    font-size: 1.2rem;
+    text-align: center;
+    color: #ffbb33;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: color 0.3s ease;
+}
+
+.edit-profile-toggle:hover {
+    color: #ff8800;
+    text-decoration: underline;
+}
+
+/* Main Content Styling */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    background: #fff;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-left: 30px;
+    max-width: 80%;
+    transition: max-width 0.3s ease;
+    position: relative;
+    top: 0;
+}
+
+h1 {
+    font-size: 2.5rem;
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.home-link {
+    display: inline-block;    
+    font-size: 1.2rem;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.home-link:hover {
+    color: #0fec6b;
+    text-decoration: underline;
+    transform: scale(1.05);
+}
+
+.home-link:focus {
+    outline: none;
+    color: #0056b3;
+}
+
+
+.job-list {
+    margin-top: 40px;
+}
+
+.job-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    z-index: 0;
+}
+
+.job-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.job-card h3 {
+    font-size: 1.7rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.job-card p {
+    font-size: 1rem;
+    color: #666;
+    margin: 5px 0;
+}
+
+.job-card button {
+    padding: 12px 24px;
+    background-color: #28a745;
+    color: #fff;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.job-card button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.upload-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload-btn:hover {
+    background-color: #0056b3;
+}
+
+.success {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.error {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+ul {
+    list-style-type: none;
+}
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: 100%;
+        padding: 20px;
+    }
+
+    .main-content {
+        margin-left: 0;
+        max-width: 100%;
+    }
+
+    .job-card {
+        padding: 15px;
+    }
+
+    .job-card h3 {
+        font-size: 1.3rem;
+    }
+
+    .job-card button {
+        padding: 10px 20px;
+    }
+}
+
+/* New Layout Enhancements */
+.main-content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(255, 99, 71, 0.2));
+    border-radius: 10px;
+    z-index: -1;
+    animation: fadeBackground 5s ease-in-out infinite;
+}
+
+@keyframes fadeBackground {
+    0% {
+        background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(255, 99, 71, 0.2));
+    }
+    50% {
+        background: linear-gradient(135deg, rgba(255, 99, 71, 0.2), rgba(0, 123, 255, 0.1));
+    }
+    100% {
+        background: linear-gradient(135deg, rgba(0, 123, 255, 0.1), rgba(255, 99, 71, 0.2));
+    }
+}
+
+    </style>
+    
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>Applicant Profile</h3>
+        <p><strong>Name:</strong> {{ student[1] }}</p>
+        <p><strong>USN:</strong> {{ student[2] }}</p>
+        <p><strong>Email:</strong> {{ student[4] }}</p>
+        <p><strong>CGPA:</strong> {{ student[8] }}</p>
+
+        <!-- Edit Profile Toggle -->
+        <a href="#" id="edit-profile-toggle" class="edit-profile-toggle">Edit Profile</a>
+
+        <!-- Edit Profile Form -->
+        <form id="edit-profile-form" style="display:none;" method="POST" action="/student_update" autocomplete="off">
+            <div>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="{{ student[1] }}" required>
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ student[4] }}" required>
+            </div>
+            <div>
+                <label for="cgpa">CGPA</label>
+                <input type="text" id="cgpa" name="cgpa" value="{{ student[8] }}" required>
+            </div>
+            <button type="submit" class="upload-btn">Update Profile</button>
+        </form>
+
+        <a href="/applied-jobs" class="home-link">Applied Jobs</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <a href="{{ url_for('home') }}" class="home-link">Go to Home</a>
+        <h1>Welcome, {{ student[1] }}</h1>
+        <p>View and apply for jobs posted by the coordinator.</p>
+<br><br>
+  {% if available_jobs %} 
+        <h2>Jobs Posted by Coordinator</h2>
+        <div class="job-list">
+            {% for job in available_jobs %}
+            <div class="job-card">
+                <h3>{{ job[1] }}</h3>
+                <p><strong>Job Role:</strong> {{ job[2] }}</p>
+                <p><strong>Description:</strong> {{ job[3] }}</p>
+                <p><strong>Location:</strong> {{ job[4] }}</p>
+                <p><strong>Salary:</strong> {{ job[5] }}</p>
+                <form method="POST" action="{{ url_for('apply_job', job_id=job[0]) }}">
+                    <button type="submit">Apply</button>
+                </form>
+            </div>
+            {% endfor %}
+            {% else %}
+        <p>No jobs have been posted yet.</p>
+    {% endif %}
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('edit-profile-toggle').addEventListener('click', function(event) {
+            event.preventDefault();
+            const form = document.getElementById('edit-profile-form');
+            const toggleLink = document.getElementById('edit-profile-toggle');
+
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                toggleLink.innerHTML = 'Cancel Edit';
+            } else {
+                form.style.display = 'none';
+                toggleLink.innerHTML = 'Edit Profile';
+            }
+        });
+    </script>
+</body>
+</html>

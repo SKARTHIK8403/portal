@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coordinator Registration</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/tlogo.jpg') }}" type="image/jpeg">
+    <style>
+     /* General Reset */
+     * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7); /* Soft gradient background */
+            color: #5c6bc0; /* Soft purple color */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Header Styling */
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            color: #8e24aa; /* Light magenta */
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Form Container */
+        form {
+            background: #ffffff; /* White background for the form */
+            padding: 40px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            border: 2px solid #f48fb1; /* Soft pink border */
+            transform: translateY(10px);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        form:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Label Styling */
+        label {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            color: #7b1fa2; /* Vibrant purple */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Input Fields Styling */
+        input[type="text"], input[type="password"], input[type="email"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 18px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-size: 1rem;
+            box-sizing: border-box;
+            background-color: #f3f3f3; /* Light gray background */
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        /* Input Fields Focus Effect */
+        input[type="text"]:focus, input[type="password"]:focus, input[type="email"]:focus {
+            border-color: #ff80ab; /* Vibrant pink border on focus */
+            background-color: #ffe0f2; /* Light pink background */
+            outline: none;
+        }
+
+        /* Button Styling */
+        button {
+            width: 100%;
+            padding: 14px;
+            background-color: #ff4081; /* Bright pink */
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #ff80ab; /* Light pink on hover */
+        }
+
+        button:active {
+            transform: translateY(2px); /* Subtle active effect */
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            form {
+                padding: 20px;
+            }
+            
+            input[type="text"], input[type="password"], input[type="email"], button {
+                font-size: 1rem;
+            }
+        }
+
+        /* Success/Error Messages */
+        .success {
+            color: #4caf50; /* Green color for success messages */
+            font-weight: bold;
+        }
+
+        .error {
+            color: #d32f2f; /* Red color for error messages */
+            font-weight: bold;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        /* Password field container */
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px; /* Adjust the icon size */
+        }
+    </style>
+</head>
+<body>
+    <h1>Coordinator Registration</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <form action="{{ url_for('register_coordinator') }}" method="POST" autocomplete="off" id="registerForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" pattern="[A-Za-z\s]+" placeholder="Enter your full name" title="Name should contain only letters and spaces." required><br><br>
+        
+        <label for="user_id">User ID:</label><br>
+        <input type="text" id="user_id" name="user_id" minlength="5" maxlength="20" pattern="[A-Za-z0-9@#_]+" placeholder="Enter a unique User ID" title="User ID should be 5-20 characters long and can only contain letters and numbers." required><br><br>
+        
+        <label for="department">Department:</label><br>
+        <input type="text" id="department" name="department" pattern="[A-Za-z\s]+" placeholder="Enter your department (e.g., Computer Science)" title="Department name should contain only letters and spaces." required><br><br>
+        
+        <label for="email">Email ID:</label><br>
+        <input type="email" id="email" name="email" placeholder="Enter your email (e.g., example@mail.com)" title="Please enter a valid email address." required><br><br>
+        
+        <label for="password">Password:</label><br>
+        <div class="password-container">
+            <input type="password" id="password" name="password" minlength="8" maxlength="20" placeholder="Enter a strong password" title="Password must be 8-20 characters long." required>
+            <span class="toggle-icon" onclick="togglePassword()">
+                <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m644-428-58-58q9-47-27-88t-93-32l-58-58q17-8 34.5-12t37.5-4q75 0 127.5 52.5T660-500q0 20-4 37.5T644-428Zm128 126-58-56q38-29 67.5-63.5T832-500q-50-101-143.5-160.5T480-720q-29 0-57 4t-55 12l-62-62q41-17 84-25.5t90-8.5q151 0 269 83.5T920-500q-23 59-60.5 109.5T772-302Zm20 246L624-222q-35 11-70.5 16.5T480-200q-151 0-269-83.5T40-500q21-53 53-98.5t73-81.5L56-792l56-56 736 736-56 56ZM222-624q-29 26-53 57t-41 67q50 101 143.5 160.5T480-280q20 0 39-2.5t39-5.5l-36-38q-11 3-21 4.5t-21 1.5q-75 0-127.5-52.5T300-500q0-11 1.5-21t4.5-21l-84-82Zm319 93Zm-151 75Z"/></svg>
+            </span>
+        </div><br><br>
+        
+        <button type="submit">Register</button>
+    </form>
+
+    <script>
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const icon = document.querySelector('.toggle-icon');
+
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M480-320q75 0 127.5-52.5T660-500q0-75-52.5-127.5T480-680q-75 0-127.5 52.5T300-500q0 75 52.5 127.5T480-320Zm0-72q-45 0-76.5-31.5T372-500q0-45 31.5-76.5T480-608q45 0 76.5 31.5T588-500q0 45-31.5 76.5T480-392Zm0 192q-146 0-266-81.5T40-500q54-137 174-218.5T480-800q146 0 266 81.5T920-500q-54 137-174 218.5T480-200Z"/></svg>';
+            } else {
+                passwordField.type = 'password';
+                icon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="m644-428-58-58q9-47-27-88t-93-32l-58-58q17-8 34.5-12t37.5-4q75 0 127.5 52.5T660-500q0 20-4 37.5T644-428Zm128 126-58-56q38-29 67.5-63.5T832-500q-50-101-143.5-160.5T480-720q-29 0-57 4t-55 12l-62-62q41-17 84-25.5t90-8.5q151 0 269 83.5T920-500q-23 59-60.5 109.5T772-302Zm20 246L624-222q-35 11-70.5 16.5T480-200q-151 0-269-83.5T40-500q21-53 53-98.5t73-81.5L56-792l56-56 736 736-56 56ZM222-624q-29 26-53 57t-41 67q50 101 143.5 160.5T480-280q20 0 39-2.5t39-5.5l-36-38q-11 3-21 4.5t-21 1.5q-75 0-127.5-52.5T300-500q0-11 1.5-21t4.5-21l-84-82Zm319 93Zm-151 75Z"/></svg>';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Students</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/tlogo.jpg') }}" type="image/jpeg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-form {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .search-form input[type="text"] {
+            padding: 10px;
+            width: 300px;
+            font-size: 1rem;
+            margin-right: 10px;
+        }
+
+        .search-form button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .search-form button:hover {
+            background-color: #0056b3;
+        }
+
+        .students-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .students-table th, .students-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .students-table th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .students-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .students-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .no-results {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Applicants by Company</h1>
+
+    <!-- Search Form -->
+    <form class="search-form" method="post" action="{{ url_for('search_company') }}" autocomplete="off">
+        <input type="text" name="company_name" placeholder="Enter Company Name" required>
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Display Table or Message -->
+    {% if students %}
+    <a href="{{ url_for('download_excel', company_name=company_name) }}" style="display: block; margin-bottom: 10px;">
+        Download as Excel
+
+        <table class="students-table">
+            <tr>
+                <th>Job Title</th>
+                <th>NAME</th>
+                <th>USN</th>
+                <th>Phone Number</th>
+                <th>Email</th>
+                <th>10th Percentage</th>
+                <th>12th Percentage</th>
+                <th>Diploma Percentage</th>
+                <th>CGPA</th>
+            </tr>
+            {% for student in students %}
+            <tr>
+                <td>{{ student[0] }}</td>
+                <td>{{ student[1] }}</td>
+                <td>{{ student[2] }}</td>
+                <td>{{ student[3] }}</td>
+                <td>{{ student[4] }}</td>
+                <td>{{ student[5] }}</td>
+                <td>{{ student[6] }}</td>
+                <td>{{ student[7] }}</td>
+                <td>{{ student[8] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% elif company_name %}
+        <p class="no-results">No students have applied for jobs at "{{ company_name }}" yet.</p>
+    {% endif %}
+
+    <a href="{{ url_for('dashboard') }}" class="back-link">Back to Dashboard</a>
+</body>
+</html>

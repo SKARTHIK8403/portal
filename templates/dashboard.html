@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coordinator Dashboard</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/tlogo.jpg') }}" type="image/jpeg">
+    <style>
+       /* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    display: flex;
+    min-height: 100vh;
+    background: linear-gradient(to right, #e3f2fd, #f1f8e9);
+    color: #333;
+    transition: background-color 0.3s ease;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 260px;
+    background: linear-gradient(135deg, #34495e, #2c3e50);
+    color: #fff;
+    padding: 40px 30px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease-in-out;
+    position: sticky;
+    top: 0;
+    border-radius: 0 10px 10px 0;
+}
+
+.sidebar h3 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.sidebar p {
+    margin: 15px 0;
+    font-size: 1.1rem;
+    line-height: 1.5;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+    display: block;
+    font-size: 1.1rem;
+    margin: 15px 0;
+    padding: 12px;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    animation: slideIn 1s ease-in-out;
+}
+
+.sidebar a:hover {
+    background: #16a085;
+    padding-left: 20px;
+    color: #ecf0f1;
+}
+
+.edit-profile-toggle {
+    font-size: 1.2rem;
+    text-align: center;
+    color: #f39c12;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: color 0.3s ease;
+}
+
+.edit-profile-toggle:hover {
+    color: #e67e22;
+    text-decoration: underline;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 40px;
+    background: #ffffff;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-left: 30px;
+    max-width: 80%;
+    position: relative;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.home-link {
+    display: inline-block;
+    font-size: 1.2rem;
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.home-link:hover {
+    color: #0fec6b;
+    text-decoration: underline;
+    transform: scale(1.1);
+}
+
+.plus-sign-btn {
+    display: inline-block;
+    font-size: 2rem;
+    background: linear-gradient(135deg, #1abc9c, #16a085);
+    color: #fff;
+    padding: 15px;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 20px;
+    text-decoration: none;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.plus-sign-btn:hover {
+    transform: scale(1.2);
+    background: linear-gradient(135deg, #16a085, #1abc9c);
+}
+
+.upload-section {
+    margin-top: 30px;
+}
+
+.upload-input {
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+.upload-input:focus {
+    outline: none;
+    border-color: #007bff;
+}
+
+.upload-btn {
+    margin-top: 10px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+.upload-btn:hover {
+    background: linear-gradient(135deg, #0056b3, #003f7f);
+}
+
+/* Job Form */
+.job-form {
+    display: none;
+    margin-top: 30px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.job-form input,
+.job-form textarea,
+.job-form button {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+.job-form button {
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.job-form button:hover {
+    background: linear-gradient(135deg, #0056b3, #003f7f);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+    </style>
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h3>Coordinator Profile</h3>
+        <p><strong>Name:</strong> {{ coordinator[1] }}</p>
+        <p><strong>User ID:</strong> {{ coordinator[2] }}</p>
+        <p><strong>Department:</strong> {{ coordinator[3] }}</p>
+        <p><strong>Email:</strong> {{ coordinator[4] }}</p>
+
+        <!-- Edit Profile Toggle -->
+        <a href="#" id="edit-profile-toggle" class="edit-profile-toggle">Edit Profile</a>
+
+        <!-- Edit Profile Form (Initially Hidden) -->
+        <form id="edit-profile-form" style="display:none;" method="POST" action="/update_profile" autocomplete="off">
+            <div>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="{{ coordinator[1] }}" required>
+            </div>
+            <div>
+                <label for="department">Department</label>
+                <input type="text" id="department" name="department" value="{{ coordinator[3] }}" required>
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" value="{{ coordinator[4] }}" required>
+            </div>
+            <button type="submit" class="upload-btn">Update Profile</button>
+        </form>
+        
+        <!-- Link to Posted Jobs -->
+        <a href="/posted-jobs" class="home-link">Posted Jobs</a><br><br>
+        <a href="{{ url_for('search_company') }}" class="home-link">View Applied Students</a>
+
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Home Link -->
+        <a href="{{ url_for('home') }}" class="home-link">Go to Home</a>
+
+        <!-- Description about page-->
+        <h1>Welcome {{ coordinator[1] }}</h1>
+        <p>In this page, you can upload the details of the job.</p>
+        <br><br>
+        <p>Click on the plus sign and enter the details to upload details of the job</p>
+        <br><br>
+        <p>You can view the jobs posted in the sidebar</p>
+        <br><br>
+        <!-- Plus Button for Job Upload -->
+        <a href="#" class="plus-sign-btn" id="open-job-form">+</a>
+        
+        <!-- Job Upload Form -->
+        <div class="job-form" id="job-form">
+            <h2>Post a Job</h2>
+            <form method="POST" action="/post-job" enctype="multipart/form-data" autocomplete="off">
+                <label for="company_name">Company Name:</label>
+                <input type="text" name="company_name" placeholder="Comapny Name" required>
+                <label for="job_title">Job Role:</label>
+                <input type="text" name="job_title" placeholder="Job Role" required>
+                <label for="job_description">Job Description:</label>
+                <textarea name="job_description" placeholder="Job Description" rows="4" required></textarea>
+                <label for="location">Location:</label>
+                <input type="text" name="location" placeholder="Location" required>
+                <label for="salary">Salary:</label>
+                <input type="text" name="salary" placeholder="Salary" required>   
+                <label for="job_expiry_date">Expiry Date:</label>
+                <input type="datetime-local" id="job_expiry_date" name="job_expiry_date" placeholder="Select expiry date and time"><br><br>             
+                <button type="submit" class="upload-btn">Submit Job</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script for toggle functionality -->
+    <script>
+        document.getElementById('edit-profile-toggle').addEventListener('click', function(event) {
+            event.preventDefault();
+            const form = document.getElementById('edit-profile-form');
+            const toggleLink = document.getElementById('edit-profile-toggle');
+
+            // Toggle visibility of the form and the link
+            if (form.style.display === 'none') {
+                form.style.display = 'block';
+                toggleLink.innerHTML = 'Cancel Edit';
+            } else {
+                form.style.display = 'none';
+                toggleLink.innerHTML = 'Edit Profile';
+            }
+        });
+
+        document.getElementById('open-job-form').addEventListener('click', function(event) {
+            event.preventDefault();
+            const form = document.getElementById('job-form');
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'block';
+            } else {
+                form.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

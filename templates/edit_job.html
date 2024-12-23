@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Job</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/tlogo.jpg') }}" type="image/jpeg">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input, textarea {
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 100%;
+        }
+
+        button {
+            padding: 12px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        a {
+            text-align: center;
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Edit Job</h1>
+
+        <form action="{{ url_for('edit_job', job_id=job[0]) }}" method="POST" autocomplete="off">
+            <label for="company_name">Company Name:</label>
+            <input type="text" id="company_name" name="company_name" value="{{ job[1] }}" required><br><br>
+
+            <label for="job_title">Job Title:</label>
+            <input type="text" id="job_title" name="job_title" value="{{ job[2] }}" required><br><br>
+
+            <label for="job_description">Job Description:</label>
+            <textarea id="job_description" name="job_description" required>{{ job[3] }}</textarea><br><br>
+
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" value="{{ job[4] }}" required><br><br>
+
+            <label for="salary">Salary:</label>
+            <input type="text" id="salary" name="salary" value="{{ job[5] }}" required><br><br>
+
+            <button type="submit">Update Job</button>
+        </form>
+
+        <br>
+        <a href="{{ url_for('posted_jobs') }}">Back to Job List</a>
+    </div>
+</body>
+</html>

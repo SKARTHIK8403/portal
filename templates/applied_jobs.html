@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applied Jobs</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/tlogo.jpg') }}" type="image/jpeg">
+
+    <style>
+       body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e7f3ff;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            color: #2a5d84;
+            margin-bottom: 40px;
+        }
+
+        .job-list {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .job-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.05);
+            width: 90%;
+            max-width: 650px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .job-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .job-card h3 {
+            font-size: 1.6rem;
+            color: #004f87;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .job-card p {
+            font-size: 1rem;
+            color: #555;
+            margin: 5px 0;
+            line-height: 1.5;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 30px;
+            text-align: center;
+            font-size: 1.3rem;
+            color: #28a745;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #218838;
+            text-decoration: underline;
+        }
+
+        .job-card p strong {
+            font-weight: 600;
+            color: #2a5d84;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .job-card {
+                padding: 20px;
+                width: 95%;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .back-link {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Applied Jobs</h1>
+
+    <div class="job-list">
+        {% if applied_jobs %}
+            {% for job in applied_jobs %}
+            <div class="job-card">
+                <h3>{{ job[0] }}</h3>
+                <p><strong>Job Role:</strong> {{ job[1] }}</p>
+                <p><strong>Description:</strong> {{ job[2] }}</p>
+                <p><strong>Location:</strong> {{ job[3] }}</p>
+                <p><strong>Salary:</strong> {{ job[4] }}</p>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="text-align: center; font-size: 1.2rem;">No jobs applied for yet.</p>
+        {% endif %}
+    </div>
+
+    <a href="{{ url_for('student_dashboard') }}" class="back-link">Back to Dashboard</a>
+</body>
+</html>

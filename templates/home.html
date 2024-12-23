@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="icon" href="{{ url_for('static', filename='images/tlogo.jpg') }}" type="image/jpeg">
+
+    <style>
+    /* General Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Body Styling */
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #A8FF78, #78A0A8);
+        color: #333;
+        min-height: 100vh;
+        display: flex;
+    }
+
+    /* Container for halves */
+    .container {
+        display: flex;
+        width: 100%;
+    }
+
+    /* Left and Right Half Styling */
+    .left, .right {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        transition: transform 1s ease-in-out, width 1s ease-in-out;
+    }
+
+    .left {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .right {
+        padding: 20px;
+    }
+
+    /* Logo Styling */
+    .logo {
+        width: 500px;
+        margin-bottom: 20px;
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+        border-radius: 10px;
+        transition: transform 1s ease-in-out;
+    }
+    .logo:hover {
+        transform: scale(1.1); /* Zoom effect on hover */
+    }
+
+    /* Typing Animation Styling */
+    .welcome-message {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #FF4500; /* Bright orange color */
+    font-family: 'Lobster', cursive;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 3px solid #FF4500;
+    width: 0;
+    animation: typing 4s steps(40, end), blink 0.5s step-end infinite;
+}
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 70%;
+    }
+}
+
+@keyframes blink {
+    50% {
+        border-color: transparent;
+    }
+}
+
+/* Persistent message styling */
+.welcome-message.completed {
+    animation: none;
+    border-right: none;
+    font-size: 2.5rem;
+    color: #FF4500; 
+    width: auto; /* Ensure the width auto-adjusts */
+    white-space: normal; /* Allow the text to wrap if necessary */
+    overflow: visible;
+}
+
+    /* Form Container Styling */
+    .form-container {
+        background: #fff;
+        border-radius: 15px;
+        padding: 35px;
+        width: 100%;
+        max-width: 900px;
+        min-height: 300px;
+        display: flex; 
+        flex-direction: column;
+        gap: 30px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        transition: transform 1s ease-in-out;
+    }
+    .form-container:hover{
+        transform: scale(1.1);
+    }
+    /* Links Styling */
+    .form-container a {
+        display: block;
+        margin: 15px 0;
+        padding: 18px;
+        background: linear-gradient(135deg, #FFD700, #FF6347);
+        color: white;
+        text-decoration: none;
+        font-size: 1.8rem;
+        font-weight: 600;
+        text-transform: capitalize;
+        border-radius: 10px;
+        text-align: center;
+        transition: all 0.4s ease;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-container a:hover {
+        background: linear-gradient(135deg, #FF6347, #FFD700);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        transform: translateY(-5px);
+    }
+
+    .form-container a:active {
+        transform: translateY(2px);
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            flex-direction: column;
+        }
+
+        .left, .right {
+            flex: none;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .logo {
+            width: 200px;
+        }
+
+        .welcome-message {
+            font-size: 1.5rem;
+        }
+
+        .form-container {
+            width: 100%;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Left Half -->
+        <div class="left">
+            <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Portal Logo" class="logo">
+            <div class="welcome-message">Welcome to Vemana Placement Portal</div>
+        </div>
+
+        <!-- Right Half -->
+        <div class="right">
+            <div class="form-container">
+                <!-- Toggle Switch -->
+                <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+                    <label style="position: relative; display: inline-block; width: 60px; height: 34px;">
+                        <input type="checkbox" id="toggleSwitch" style="opacity: 0; width: 0; height: 0;">
+                        <span style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #FFD700; border-radius: 34px; transition: 0.4s;">
+                        </span>
+                        <span style="position: absolute; height: 26px; width: 26px; left: 4px; bottom: 4px; background-color: white; border-radius: 50%; transition: 0.4s;" id="toggleKnob"></span>
+                    </label>
+                    <span id="toggleLabel" style="margin-left: 10px; font-size: 1.2rem; font-weight: bold; color: #333;">Students</span>
+                </div>
+
+                <!-- Students Links -->
+                <div id="studentOptions">
+                    <a href="{{ url_for('register_student') }}">Student Registration</a>
+                    <a href="{{ url_for('login_student') }}">Student Login</a>
+                </div>
+
+                <!-- Coordinators Links -->
+                <div id="coordinatorOptions" style="display: none;">
+                    <a href="{{ url_for('register_coordinator') }}">Coordinator Registration</a>
+                    <a href="{{ url_for('login_coordinator') }}">Coordinator Login</a>
+                </div>
+            </div>
+
+            <script>
+                // JavaScript for Toggle Functionality
+                const toggleSwitch = document.getElementById("toggleSwitch");
+                const toggleLabel = document.getElementById("toggleLabel");
+                const studentOptions = document.getElementById("studentOptions");
+                const coordinatorOptions = document.getElementById("coordinatorOptions");
+                const toggleKnob = document.getElementById("toggleKnob");
+
+                toggleSwitch.addEventListener("change", function() {
+                    if (toggleSwitch.checked) {
+                        coordinatorOptions.style.display = "block";
+                        studentOptions.style.display = "none";
+                        toggleLabel.textContent = "Coordinators";
+                        toggleKnob.style.transform = "translateX(26px)";
+                    } else {
+                        coordinatorOptions.style.display = "none";
+                        studentOptions.style.display = "block";
+                        toggleLabel.textContent = "Students";
+                        toggleKnob.style.transform = "translateX(0)";
+                    }
+                });
+            </script>
+
+    <script>
+        // Wait for typing animation to complete
+        document.addEventListener("DOMContentLoaded", () => {
+            const message = document.querySelector(".welcome-message");
+            setTimeout(() => {
+                message.classList.add("completed");
+            }, 4000); // Match the typing animation duration
+        });
+    </script>
+</body>
+</html>
