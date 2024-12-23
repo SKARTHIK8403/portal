@@ -562,8 +562,7 @@ def download_excel(company_name):
 
     # Serve the file for download
     return send_file(file_path, as_attachment=True, download_name=f"{company_name}_applied_students.xlsx")
-
-
-if __name__ == '__main__':
-    init_db()    
-    app.run(debug=True)
+    
+    
+init_db()    
+    
