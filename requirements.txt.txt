@@ -1,4 +1,0 @@
-Flask
-sqlite3  # Not required in requirements.txt as it's part of Python's standard library
-Werkzeug
-pandas
