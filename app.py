@@ -9,7 +9,7 @@ app.secret_key = 'secret_key'  # Secret key for session management
 
 # Initialize the database
 def init_db():
-    conn = sqlite3.connect('placement_db.db')
+    conn = sqlite3.connect('placement_db.db', timeout=0)
     c = conn.cursor()
 
     # Create applicants table
